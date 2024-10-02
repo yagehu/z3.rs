@@ -1729,6 +1729,16 @@ impl<'ctx> Seq<'ctx> {
         unsafe { Int::wrap(self.ctx, Z3_mk_seq_length(self.ctx.z3_ctx, self.z3_ast)) }
     }
 
+    /// Create a map of the function `f` over the sequence.
+    pub fn map(&self, f: &Array<'ctx>) -> Dynamic<'ctx> {
+        unsafe {
+            Dynamic::wrap(
+                self.ctx,
+                Z3_mk_seq_map(self.ctx.z3_ctx, f.z3_ast, self.z3_ast),
+            )
+        }
+    }
+
     /// Create a fold of the function `f` over the sequence with accumulator `a`.
     pub fn foldl(&self, f: &Array<'ctx>, a: &Dynamic<'ctx>) -> Dynamic<'ctx> {
         unsafe {
