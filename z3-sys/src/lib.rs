@@ -3098,7 +3098,8 @@ extern "C" {
     /// Retrieve from `s` the unit sequence positioned at position `index`.
     pub fn Z3_mk_seq_at(c: Z3_context, s: Z3_ast, index: Z3_ast) -> Z3_ast;
 
-    /// Retrieve from s the element positioned at position index. The function is under-specified if the index is out of bounds.
+    /// Retrieve from `s` the element positioned at position `index`.
+    /// The function is under-specified if the index is out of bounds.
     pub fn Z3_mk_seq_nth(c: Z3_context, s: Z3_ast, index: Z3_ast) -> Z3_ast;
 
     /// Return the length of the sequence `s`.
@@ -3787,7 +3788,7 @@ extern "C" {
 
     /// Pseudo-Boolean relations.
     ///
-    /// Encode p1 + p2 + ... + pn <= k
+    /// Encode `p1 + p2 + ... + pn <= k`
     pub fn Z3_mk_atmost(
         c: Z3_context,
         num_args: ::std::os::raw::c_uint,
@@ -3797,7 +3798,7 @@ extern "C" {
 
     /// Pseudo-Boolean relations.
     ///
-    /// Encode p1 + p2 + ... + pn >= k
+    /// Encode `p1 + p2 + ... + pn >= k`
     pub fn Z3_mk_atleast(
         c: Z3_context,
         num_args: ::std::os::raw::c_uint,
@@ -3807,7 +3808,7 @@ extern "C" {
 
     /// Pseudo-Boolean relations.
     ///
-    /// Encode k1*p1 + k2*p2 + ... + kn*pn <= k
+    /// Encode `k1*p1 + k2*p2 + ... + kn*pn <= k`
     pub fn Z3_mk_pble(
         c: Z3_context,
         num_args: ::std::os::raw::c_uint,
@@ -3818,7 +3819,7 @@ extern "C" {
 
     /// Pseudo-Boolean relations.
     ///
-    /// Encode k1*p1 + k2*p2 + ... + kn*pn >= k
+    /// Encode `k1*p1 + k2*p2 + ... + kn*pn >= k`
     pub fn Z3_mk_pbge(
         c: Z3_context,
         num_args: ::std::os::raw::c_uint,
@@ -3829,7 +3830,7 @@ extern "C" {
 
     /// Pseudo-Boolean relations.
     ///
-    /// Encode k1*p1 + k2*p2 + ... + kn*pn = k
+    /// Encode `k1*p1 + k2*p2 + ... + kn*pn = k`
     pub fn Z3_mk_pbeq(
         c: Z3_context,
         num_args: ::std::os::raw::c_uint,

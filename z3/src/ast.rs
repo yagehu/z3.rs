@@ -1704,7 +1704,8 @@ impl<'ctx> Seq<'ctx> {
         }
     }
 
-    /// Retrieve from s the unit sequence positioned at position index.
+    /// Retrieve the unit sequence positioned at position `index`.
+    /// Use [`Seq::nth`] to get just the element.
     pub fn at(&self, index: &Int<'ctx>) -> Self {
         unsafe {
             Self::wrap(
@@ -1714,7 +1715,7 @@ impl<'ctx> Seq<'ctx> {
         }
     }
 
-    /// Retrieve from s the element positioned at position index.
+    /// Retrieve the element positioned at position `index`.
     ///
     /// # Examples
     /// ```
@@ -1757,6 +1758,27 @@ impl<'ctx> Seq<'ctx> {
     }
 
     /// Create a fold of the function `f` over the sequence with accumulator `a`.
+    ///
+    /// # Examples
+    /// ```
+    /// # use z3::{Config, Context, Solver, Sort};
+    /// # use z3::ast::{Seq, Int, Dynamic, lambda_const};
+    /// #
+    /// # let cfg = Config::new();
+    /// # let ctx = Context::new(&cfg);
+    /// # let solver = Solver::new(&ctx);
+    /// #
+    /// let seq = Seq::new_const(&ctx, "seq", &Sort::int(&ctx));
+    /// let accumulator = Int::new_const(&ctx, "acc");
+    /// let item = Int::new_const(&ctx, "item");
+    /// let sum = lambda_const(
+    ///     &ctx,
+    ///     &[&accumulator, &item],
+    ///     &Dynamic::from_ast(&Int::add(&ctx, &[&accumulator, &item])),
+    /// );
+    ///
+    /// seq.foldl(&sum, &Dynamic::from_ast(&Int::from_u64(&ctx, 0)));
+    /// ```
     pub fn foldl(&self, f: &Array<'ctx>, a: &Dynamic<'ctx>) -> Dynamic<'ctx> {
         unsafe {
             Dynamic::wrap(
