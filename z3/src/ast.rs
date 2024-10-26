@@ -1161,6 +1161,15 @@ impl<'ctx> String<'ctx> {
         }
     }
 
+    pub fn foldl(&self, f: &Array<'ctx>, a: &Dynamic<'ctx>) -> Dynamic<'ctx> {
+        unsafe {
+            Dynamic::wrap(
+                self.ctx,
+                Z3_mk_seq_foldl(self.ctx.z3_ctx, f.z3_ast, a.z3_ast, self.z3_ast),
+            )
+        }
+    }
+
     /// Checks if this string matches a `z3::ast::Regexp`
     pub fn regex_matches(&self, regex: &Regexp) -> Bool<'ctx> {
         assert!(self.ctx == regex.ctx);
