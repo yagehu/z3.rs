@@ -404,6 +404,8 @@ pub enum SortKind {
     Seq = generated::Z3_sort_kind::Z3_SEQ_SORT as u32,
     /// This corresponds to `Z3_RE_SORT` in the C API.
     RE = generated::Z3_sort_kind::Z3_RE_SORT as u32,
+    /// This corresponds to `Z3_CHAR_SORT` in the C API.
+    Char = generated::Z3_sort_kind::Z3_CHAR_SORT as u32,
     /// This corresponds to `Z3_UNKNOWN_SORT` in the C API.
     Unknown = generated::Z3_sort_kind::Z3_UNKNOWN_SORT as u32,
 }
@@ -3024,6 +3026,9 @@ extern "C" {
 
     /// Check if `s` is a regular expression sort.
     pub fn Z3_is_re_sort(c: Z3_context, s: Z3_sort) -> bool;
+
+    /// Create a sort for unicode characters.
+    pub fn Z3_mk_char_sort(c: Z3_context) -> Z3_sort;
 
     /// Create a sort for 8 bit strings.
     ///
