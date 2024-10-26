@@ -1765,6 +1765,10 @@ impl<'ctx> Seq<'ctx> {
         }
     }
 
+    pub fn unit(ctx: &'ctx Context, item: &Dynamic) -> Self {
+        unsafe { Self::wrap(ctx, Z3_mk_seq_unit(ctx.z3_ctx, item.get_z3_ast())) }
+    }
+
     /// Retrieve the unit sequence positioned at position `index`.
     /// Use [`Seq::nth`] to get just the element.
     pub fn at(&self, index: &Int<'ctx>) -> Self {
