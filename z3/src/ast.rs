@@ -39,6 +39,12 @@ pub struct Float<'ctx> {
     pub(crate) z3_ast: Z3_ast,
 }
 
+/// [`Ast`] node representing an unicode character value.
+pub struct Character<'ctx> {
+    pub(crate) ctx: &'ctx Context,
+    pub(crate) z3_ast: Z3_ast,
+}
+
 /// [`Ast`] node representing a string value.
 pub struct String<'ctx> {
     pub(crate) ctx: &'ctx Context,
@@ -551,6 +557,8 @@ impl_ast!(Real);
 impl_from_try_into_dynamic!(Real, as_real);
 impl_ast!(Float);
 impl_from_try_into_dynamic!(Float, as_float);
+impl_ast!(Character);
+impl_from_try_into_dynamic!(Character, as_character);
 impl_ast!(String);
 impl_from_try_into_dynamic!(String, as_string);
 impl_ast!(BV);
@@ -1105,6 +1113,33 @@ impl<'ctx> Float<'ctx> {
         sub(Z3_mk_fpa_sub, Self);
         mul(Z3_mk_fpa_mul, Self);
         div(Z3_mk_fpa_div, Self);
+    }
+}
+
+impl<'ctx> Character<'ctx> {
+    /// Creates a new constant using the built-in character sort
+    pub fn new_const<S: Into<Symbol>>(ctx: &'ctx Context, name: S) -> Self {
+        let sort = Sort::character(ctx);
+
+        unsafe {
+            Self::wrap(ctx, {
+                Z3_mk_const(ctx.z3_ctx, name.into().as_z3_symbol(ctx), sort.z3_sort)
+            })
+        }
+    }
+
+    /// Creates a fresh constant using the built-in character sort
+    pub fn fresh_const(ctx: &'ctx Context, prefix: &str) -> Self {
+        let sort = Sort::character(ctx);
+
+        unsafe {
+            Self::wrap(ctx, {
+                let pp = CString::new(prefix).unwrap();
+                let p = pp.as_ptr();
+
+                Z3_mk_fresh_const(ctx.z3_ctx, p, sort.z3_sort)
+            })
+        }
     }
 }
 
@@ -1809,6 +1844,14 @@ impl<'ctx> Dynamic<'ctx> {
     pub fn as_float(&self) -> Option<Float<'ctx>> {
         match self.sort_kind() {
             SortKind::FloatingPoint => Some(unsafe { Float::wrap(self.ctx, self.z3_ast) }),
+            _ => None,
+        }
+    }
+
+    /// Returns [`None`] if the [`Dynamic`] is not actually a [`Character`]
+    pub fn as_character(&self) -> Option<Character<'ctx>> {
+        match self.sort_kind() {
+            SortKind::Char => Some(unsafe { Character::wrap(self.ctx, self.z3_ast) }),
             _ => None,
         }
     }
