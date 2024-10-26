@@ -1782,6 +1782,10 @@ impl<'ctx> Seq<'ctx> {
             )
         }
     }
+
+    varop! {
+        concat(Z3_mk_seq_concat, Self);
+    }
 }
 
 impl<'ctx> Dynamic<'ctx> {
