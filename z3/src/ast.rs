@@ -1907,6 +1907,16 @@ impl<'ctx> Seq<'ctx> {
         }
     }
 
+    /// Create an empty sequence of the sequence sort `seq`.
+    pub fn empty(ctx: &'ctx Context, seq: Sort<'ctx>) -> Self {
+        unsafe {
+            Self::wrap(
+                ctx,
+                Z3_mk_seq_empty(ctx.get_z3_context(), seq.get_z3_sort()),
+            )
+        }
+    }
+
     /// Retrieve the element positioned at position `index`.
     ///
     /// # Examples
