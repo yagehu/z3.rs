@@ -1274,7 +1274,7 @@ impl<'ctx> String<'ctx> {
     /// Return index of the first occurrence of `substr` starting from offset
     /// `offset`. If `self` does not contain `substr`, then the value is -1,
     /// if `offset` is the length of `self`, then the value is -1 as well.
-    /// The value is -1 if `offset`` is negative or larger than
+    /// The value is -1 if `offset` is negative or larger than
     /// the length of `self`.
     pub fn index_of(&self, substr: &Self, offset: &Int) -> Int<'ctx> {
         unsafe {
